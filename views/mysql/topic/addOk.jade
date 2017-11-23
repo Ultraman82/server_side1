@@ -1,0 +1,101 @@
+extends ../layout
+block content
+  artcle
+    form.cbp-mc-form(action='/topic/add' method='post')
+      .cbp-mc-column
+        //- h5 Contact info
+        //- label(for='email') Email Address
+        //- input#email(type='email', name='email', placeholder='jon@doe.com', required='')
+        //- span
+        //-   label(for='password')
+        //-     | Password 
+        //-     span.shit(data-tooltip='Password should be 8-32 characters. Please use a combination of letters, numbers, and symbols.', data-tooltip-position='top') ?
+        //- input#password(type='password', minlength='8', maxlength='32', name='password', placeholder='password123')
+        //- label(for='confirmPass') Confirm Password
+        //- input#confirmPass(type='password', minlength='8', maxlength='32', name='confirmPass', placeholder='password123')
+        //- label(for='phone')
+        //-   | Phone Number 
+        //-   span.shit(data-tooltip='Please include your area code. No 1.', data-tooltip-position='top') ?
+        //- input#phone(type='text', minlength='10', maxlength='10', name='phone', placeholder='351 999 9999')
+        //- h4
+          | Preferred method of contact 
+          span.shit(data-tooltip='This is in case something happens and we need to contact you urgently. Your booking confirmation and receipt will be sent via email.', data-tooltip-position='top') ?
+        input#email.element.radio(name='contact', type='radio', value='email')
+        label.contact(for='contact') Email me
+        br
+        input#call.element.radio(name='contact', type='radio', value='call')
+        label.contact(for='contact') Call me
+        br
+        input#text.element.radio(name='contact', type='radio', value='text')
+        label.contact(for='contact') Text me
+        br
+      .cbp-mc-column
+        h5 Select package
+        input#7Days.element.radio(name='lengthOfStay', type='radio', value='7days')
+        label.choice(for='lengthOfStay') 7 Days
+        br
+        input#14Days.element.radio(name='lengthOfStay', type='radio', value='14Days')
+        label.choice(for='lengthOfStay') 14 Days
+        |  (+ $700)
+        br
+        h5
+          | Select Home Airport 
+          span.shit(data-tooltip='The airport you select will be the airport you will fly to Athens from. Return flight will return you to this airport. You will need to arrange transportation to and from here.', data-tooltip-position='top') ?
+        input#element_7_1.element.radio(name='airport', type='radio', value='newyork')
+        label.choice(for='element_7_1') New York City, NY
+        br
+        input#element_7_2.element.radio(name='airport', type='radio', value='atlanta')
+        label.choice(for='element_7_1') Atlanta, GA
+        br
+        input#element_7_2.element.radio(name='airport', type='radio', value='phoneix')
+        label.choice(for='element_7_2') Phoenix, AZ
+        br
+        input#element_7_3.element.radio(name='airport', type='radio', value='columbus')
+        label.choice(for='airport') Columbus, OH
+        |  (+ $100)
+        br
+        h5 Select Departure
+        #calendar
+      .cbp-mc-column
+        h5 Passenger details
+        label Select number of Passengers
+        select#talent(name='talent')
+          option 1
+          option 2
+          option 3
+          option 4
+        label(for='drink')
+          | Name 
+        span.shit(data-tooltip='Please make sure that you type it exactly as it appears in your passport', data-tooltip-position='top') ?
+        input#pname(type='text', name='pname0', placeholder='John A. Doe')
+        label(for='dob') Date of Birth
+        input#dob(type='text', name='dob0', placeholder='mm/dd/yyyy')
+        label(for='tid') Passport Number
+        input#passportid(type='text', name='passportid0', minlength='9', maxlength='9', placeholder='123456789')
+        | Name 
+        span.shit(data-tooltip='Please make sure that you type it exactly as it appears in your passport', data-tooltip-position='top') ?
+        input#pname(type='text', name='pname1', placeholder='John A. Doe')
+        label(for='dob') Date of Birth
+        input#dob(type='text', name='dob1', placeholder='mm/dd/yyyy')
+        label(for='tid') Passport Number
+        input#passportid(type='text', name='passportid1', minlength='9', maxlength='9', placeholder='123456789')        
+        | Name 
+        span.shit(data-tooltip='Please make sure that you type it exactly as it appears in your passport', data-tooltip-position='top') ?
+        input#pname(type='text', name='pname2', placeholder='John A. Doe')
+        label(for='dob') Date of Birth
+        input#dob(type='text', name='dob2', placeholder='mm/dd/yyyy')
+        label(for='tid') Passport Number
+        input#passportid(type='text', name='passportid2', minlength='9', maxlength='9', placeholder='123456789')        
+        | Name 
+        span.shit(data-tooltip='Please make sure that you type it exactly as it appears in your passport', data-tooltip-position='top') ?
+        input#pname(type='text', name='pname3', placeholder='John A. Doe')
+        label(for='dob') Date of Birth
+        input#dob(type='text', name='dob3', placeholder='mm/dd/yyyy')
+        label(for='tid') Passport Number
+        input#passportid(type='text', name='passportid3', minlength='9', maxlength='9', placeholder='123456789')
+        label(for='bio')
+          | Special Requests 
+          span.shit(data-tooltip='Food and seating preferences go here, as well as anything else you think warrants mentioning.', data-tooltip-position='top') ?
+        textarea#request(name='request')
+      .cbp-mc-submit-wrap
+        input.cbp-mc-submit(type='submit', value='Send your data')

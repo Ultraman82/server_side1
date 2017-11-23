@@ -1,0 +1,22 @@
+extends layout
+block content
+  artcle
+    if packages
+      each package in packages      
+        - var pName = Array.from(package.passangers.split(','));
+        h2= pName[0]
+        div= 'Email:' + package.email
+        div= 'DepartureDate: ' + package.departure
+        div= 'lengthOfStay: ' + package.packageType
+        div= 'Passangers: ' + package.passangers
+        div= 'TotalCost: ' + package.price
+        div= 'Airport: ' + package.airport
+        li
+          a(href='/package/'+package.id+'/edit/' style='font-size:20px') Edit
+          |(Only can edit pernoal info, and departure date. When you need to change any other information, you need to cancel and rebook the trip.)
+        li
+          a(href='/package/'+package.id+'/delete/' style='font-size:20px') Cancel
+      
+    else
+      h2(href="auth/login") Login Firs please.      
+  

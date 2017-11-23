@@ -1,0 +1,39 @@
+extends layout
+block content
+  artcle
+    if data
+      h2 Is this correct?
+      div= data.passangers[0]
+      div= 'Email:' + data.email
+      div= 'DepartureDate: ' + data.departure
+      div= 'lengthOfStay: ' + data.packageType
+      div= 'Passangers: ' + data.passangers
+      div= 'Airport: ' + data.airport
+      div= 'TotalCost: ' + data.price
+      
+      
+      form(action='/booknow/charge' method ='post')
+        input(type ="hidden" name = "chargeAmount" value = data.price)
+        script(
+        src = "https://checkout.stripe.com/checkout.js",
+        class = "stripe-button",
+        data-key="pk_test_Iz9vP9Cg03vjp9JNVLiN8Mqz",
+        data-amout = data.price,
+        data-name = "cute dog",
+        data-description = "sdgs",
+        data-locale = "auto",
+        data-currency = "usd")
+        
+      div() Edit my booking
+      
+    else
+      h2 Rout test
+      | its working
+  //- ul
+  //-   li
+  //-     a(href='/topic/add') add
+  //-   if topic
+  //-     li
+  //-       a(href='/topic/'+topic.id+'/edit/') edit
+  //-     li
+  //-       a(href='/topic/'+topic.id+'/delete/') delete

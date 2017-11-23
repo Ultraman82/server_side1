@@ -1,0 +1,202 @@
+extends layout
+block content
+  .main
+    section.bg-color-dark
+      form.cbp-mc-form(action='/booknow' method='post')
+        .cbp-mc-column
+          h5 Select package
+          input#7Days.element.radio(name='lengthOfStay', type='radio', value='7')
+          label.choice(for='lengthOfStay') 8 Days/7 Nights
+          |  ($1000)
+          br
+          input#14Days.element.radio(name='lengthOfStay', type='radio', value='14')
+          label.choice(for='lengthOfStay') 15 Days/14 Nights
+          |  ($1700)
+          br
+          h5
+            | Select Home Airport
+            span.shit(data-tooltip='The airport you select will be the airport you will fly to Athens from. Return flight will return you to this airport. You will need to arrange transportation to and from here.', data-tooltip-position='top') ?
+          input#NYC.element.radio(name='airport', type='radio', value='NYC')
+          label.choice.airport(for='NYC') New York City, NY
+          |  ($500)
+          br
+          input#ATL.element.radio(name='airport', type='radio', value='ATL')
+          label.choice.airport(for='ATL') Atlanta, GA
+          |  ($700)
+          br
+          input#PHX.element.radio(name='airport', type='radio', value='PHX')
+          label.choice.airport(for='PHX') Phoenix, AZ
+          |  ($900)
+          br
+          input#CMH.element.radio(name='airport', type='radio', value='CMH')
+          label.choice.airport(for='CMH') Columbus, OH
+          |  ($1000)
+          br
+          h5 Select Departure
+          #calendar
+        .cbp-mc-column
+          h5 Passenger details
+          label Select number of Passengers
+          select#talent(name='talent')
+            option 1
+            option 2
+            option 3
+            option 4
+          label(for='drink')
+          .pDetail
+            | Name 1
+            span.shit(data-tooltip='Please make sure that you type it exactly as it appears in your passport', data-tooltip-position='top') ?
+            input#pname(type='text', name='pname0', placeholder='John A. Doe')
+            label(for='dob') Date of Birth
+            input#dob(type='text', name='dob0', placeholder='mm/dd/yyyy')
+            label(for='passportid') Passport Number
+            input#passportid0(type='text', name='passportid0', minlength='9', maxlength='9', placeholder='123456789')
+            
+          | Special Requests
+          span.shit(data-tooltip='Food and seating preferences go here, as well as anything else you think warrants mentioning.', data-tooltip-position='top') ?
+          textarea#request(name='request')
+        .cbp-mc-submit-wrap
+          h4
+            | Per person:
+            span#price $1,300
+            | Number of travler:                
+            span#numTravler 1
+            | Total Cost:
+            span#totalCost $1,300
+          input.dDate
+          input.totalCost
+          input.cbp-mc-submit(type='submit', value='Purchase')
+    script.
+      var numOfDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+      var currDate = 0, day = 0, month = 0, year = 0, price = 0;
+      var selectDates = [];
+      var dateArray = [];
+      var dur = 8;
+      var numTravler = 1, totalCost = 0;
+      
+      $('#talent').change(function(){
+        var vall = $('#talent option:selected').val();
+        numTravler = vall;
+        var pHtml = "";
+        for (var i=0;i<vall;i++){                                            
+              pHtml+= `Name ${i+1}                  
+              <span data-tooltip="Please make sure that you type it exactly as it appears in your passport" data-tooltip-position="top" class="shit">?</span>
+              <input id="pname${i}" type="text" name="pname${i}" placeholder="John A. Doe" />
+              <label for="dob">Date of Birth</label>
+              <input id="dob${i}" type="text" name="dob${i}" placeholder="mm/dd/yyyy" />
+              <label for="passportid">Passport Number</label>
+              <input id="passportid${i}" type="text" name="passportid${i}" minlength="9" maxlength="9" placeholder="123456789" />
+            `;
+        };
+        $('.pDetail').html(pHtml);
+        totalCost = price * numTravler;            
+        $("#totalCost").text(totalCost);
+        $("#numTravler").text(numTravler);
+        $('.totalCost').html('<input type="hidden" name="totalCost" value=' + totalCost + '>');
+      });
+      
+      
+      $('#calendar').datepicker({
+      onSelect: function(date, inst) {            
+      currDate = date;          
+      day = inst.selectedDay;
+      month = inst.selectedMonth;
+      year = inst.selectedYear;
+      datesArray();          
+      $('.dDate').html('<input type="hidden" name="dDate" value=' + date + '>');
+      },
+      inline: true,
+      firstDay: 1,
+      maxDate: "+6m",
+      showOtherMonths: true,
+      dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      minDate: 14,
+      beforeShowDay: function(date) {
+      var dayOfWeek = date.getDay();
+      var str = date.getMonth() + "/" + date.getDate() + "/" + date.getUTCFullYear();
+      for (i = 0; i < dur;i++) {
+      //if the date matches the selected array, and the day is Wed/Thurs
+      if (str == dateArray[i] && dayOfWeek > 2 && dayOfWeek < 5) {            
+        return [true, "ui-state-highlight", ""];                    
+      }
+      else if (str == dateArray[i]) {
+      return [false, "ui-state-highlight", ""];
+      }
+      }
+      //var alpha = str.replace(/(\\w\w\w\w\s)(\d\d\d\d-\d\d-\d\d)(.*)/g, $2);
+      return [(dayOfWeek > 2 && dayOfWeek < 5)];
+      //
+      }
+      });
+      /*$('#7Days').datepicker("refresh");
+      $('#14Days').datepicker("refresh");
+      */
+      var lastAirport = 0;
+      var value = 0;
+      var lastLength = 0;
+      var stay = 0;
+      function calcTotal(){
+        totalCost = price * numTravler;
+        $("#price").text(price);
+        $("#totalCost").text(totalCost);
+        $('.totalCost').html('<input type="hidden" name="totalCost" value=' + totalCost + '>');                        
+      }
+      function airportPrice(value) {
+      price = price + value - lastAirport;
+      lastAirport = value;
+      calcTotal();
+      } 
+      function lengthPrice(stay) {
+      price = price + stay - lastLength;
+      lastLength = stay;          
+      calcTotal();
+      }
+      function datesArray() {
+      dateArray = [];  //resets
+      for (var i = 0; i < dur; i++) {
+      // check for leap year, and if February, set numOfDays to 29
+      var leapYear = year % 4;
+      if (month == 1 && leapYear === 0) {
+      numOfDays[1] = 29;
+      }
+      // creates array of dates          
+      dateArray.push(month + "/" + day + "/" + year);
+      if (day === numOfDays[month]) {
+      day = 1;
+      if (month ===  11) {
+      month = 0;
+      year++;
+      } else {
+      month++;
+      }
+      } else {
+      day++;
+      }
+      }
+      $('#calendar').datepicker("refresh");
+      }
+      $("#ATL").on("click", function() {
+      value = 700;
+      airportPrice(value);
+      });
+      $("#PHX").on("click", function() {
+      value = 900;
+      airportPrice(value);
+      });
+      $("#CMH").on("click", function() {
+      value = 1000;
+      airportPrice(value);
+      });
+      $("#7Days").on("click", function() {
+      value = 1200;
+      lengthPrice(value);
+      dur = 8;
+      datesArray();
+      });
+      $("#14Days").on("click", function() {
+      value = 2000;
+      lengthPrice(value);
+      dur = 15;
+      console.log("dur is 15!");
+      datesArray();
+      });

@@ -1,0 +1,17 @@
+extends ../layout
+block content
+  if message
+    a(style="color:red")=message
+  form(action='/auth/login', method='post')
+    p
+      input(type='text', name='username', placeholder='username')
+    p
+      input(type='password', name='password', placeholder='password')
+    p
+      input(type='submit')
+
+  a(href='/auth/facebook') facebook
+
+  br
+
+  a(href='/auth/google') Google
